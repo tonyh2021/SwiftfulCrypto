@@ -13,6 +13,8 @@ struct HomeView: View {
     @State private var showPortfolio: Bool = false
     
     var body: some View {
+        // debug printing
+//        let _ = print(showPortfolio)
         ZStack {
             Color.theme.background.expandViewOutOfSafeArea()
             VStack {
@@ -49,7 +51,8 @@ extension HomeView {
     private var homeHeader: some View {
         HStack {
             CircleButtonView(iconName: showPortfolio ? "plus" : "info")
-                .animation(.none, value: showPortfolio)
+            // https://stackoverflow.com/questions/69443588/how-to-replace-deprecated-animation-in-swiftui
+                .animation(nil, value: UUID())
                 .background(
                     CircleButtonAnimationView(animate: $showPortfolio)
                 )
@@ -58,7 +61,7 @@ extension HomeView {
                 .font(.headline)
                 .fontWeight(.heavy)
                 .foregroundColor(Color.theme.accent)
-                .animation(.none, value: showPortfolio)
+                .animation(nil, value: UUID())
             Spacer()
             CircleButtonView(iconName: "chevron.right")
                 .rotationEffect(Angle(degrees: showPortfolio ? 180 : 0))
