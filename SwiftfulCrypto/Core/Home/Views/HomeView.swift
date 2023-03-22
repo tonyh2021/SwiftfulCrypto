@@ -20,6 +20,7 @@ struct HomeView: View {
             VStack {
                 homeHeader
                 
+                HomeStatsView(showPortfolio: $showPortfolio)
                 SearchBarView(searchText: $vm.searchText)
                 
                 columnTitles
@@ -36,16 +37,6 @@ struct HomeView: View {
                 Spacer(minLength: 0)
             }
         }
-    }
-}
-
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            HomeView()
-                .navigationBarHidden(true)
-        }
-        .environmentObject(dev.homeVM)
     }
 }
 
@@ -108,5 +99,15 @@ extension HomeView {
         .font(.caption)
         .foregroundColor(Color.theme.secondary)
         .padding(.horizontal)
+    }
+}
+
+struct HomeView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView {
+            HomeView()
+                .navigationBarHidden(true)
+        }
+        .environmentObject(dev.homeVM)
     }
 }
