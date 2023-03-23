@@ -13,6 +13,15 @@ import SwiftUI
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        var foregroundColor: UIColor;
+        if #available(iOS 14.0, *) {
+            foregroundColor = UIColor(Color.theme.accent)
+        } else {
+            foregroundColor = Color.theme.accent.uiColor;
+        }
+        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: foregroundColor]
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: foregroundColor]
         return true
     }
     
