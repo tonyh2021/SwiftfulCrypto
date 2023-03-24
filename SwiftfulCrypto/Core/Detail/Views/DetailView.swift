@@ -83,8 +83,19 @@ extension DetailView {
             }
         } else {
             // Fallback on earlier versions
-            return VStack {
-                
+            let col = 2
+            let row = vm.overviewStatistics.count / col
+            return VStack(spacing: spacing) {
+                ForEach(0..<row, id: \.self) { rowIndex in
+                    HStack() {
+                        ForEach(0..<col, id: \.self) { colIndex in
+                            ZStack(alignment: .leading) {
+                                Color.theme.background
+                                StatisticView(stat: vm.overviewStatistics[rowIndex * col + colIndex])
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -106,8 +117,19 @@ extension DetailView {
             }
         } else {
             // Fallback on earlier versions
-            return VStack {
-                
+            return VStack(spacing: spacing) {
+                let col = 2
+                let row = vm.additionalStatistics.count / col
+                ForEach(0..<row, id: \.self) { rowIndex in
+                    HStack() {
+                        ForEach(0..<col, id: \.self) { colIndex in
+                            ZStack(alignment: .leading) {
+                                Color.theme.background
+                                StatisticView(stat: vm.additionalStatistics[rowIndex * col + colIndex])
+                            }
+                        }
+                    }
+                }
             }
         }
     }
