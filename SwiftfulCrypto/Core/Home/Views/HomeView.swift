@@ -13,6 +13,9 @@ struct HomeView: View {
     @State private var showPortfolio: Bool = false
     @State private var showPortfolioSheet: Bool = false
     
+    @State private var selectedCoin: CoinModel? = nil
+    @State private var showDetailView: Bool = false
+    
     var body: some View {
         // debug printing
 //        let _ = print(showPortfolio)
@@ -41,7 +44,15 @@ struct HomeView: View {
                 
                 Spacer(minLength: 0)
             }
-        }
+        }.background(
+            NavigationLink(
+                destination: DetailLoadingView(coin: $selectedCoin),
+                isActive: $showDetailView,
+                label: {
+                    EmptyView()
+                }
+            )
+        )
     }
 }
 
@@ -84,6 +95,9 @@ extension HomeView {
                     ForEach(vm.allCions) { coin in
                         CoinRowView(coin: coin, showHoldingsColumn: false)
                             .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
+                            .onTapGesture {
+                                segue(coin: coin)
+                            }
                     }
                 }
                 .listStyle(PlainListStyle())
@@ -92,10 +106,19 @@ extension HomeView {
                 }
             } else {
                 GeometryReader { geometry in
-                    RefreshScrollView(width: geometry.size.width, height: geometry.size.height, vm: vm)
+                    RefreshScrollView(
+                        width: geometry.size.width,
+                        height: geometry.size.height,
+                        vm: vm,
+                        onTap: segue)
                 }
             }
         }
+    }
+    
+    private func segue(coin: CoinModel) {
+        selectedCoin = coin
+        showDetailView.toggle()
     }
     
     private var portfolioCoinsListView: some View {

@@ -12,6 +12,7 @@ struct RefreshScrollView: UIViewRepresentable {
     let width: CGFloat
     let height: CGFloat
     let vm: HomeViewModel
+    let onTap: OnTapCallback
         
     func makeCoordinator() -> Coordinator {
         Coordinator(self, vm: vm)
@@ -22,7 +23,7 @@ struct RefreshScrollView: UIViewRepresentable {
         control.refreshControl = UIRefreshControl()
         control.refreshControl?.addTarget(context.coordinator, action: #selector(Coordinator.handleRefreshControl), for: .valueChanged)
         
-        let childView = UIHostingController(rootView: PullToRefreshView(vm: vm))
+        let childView = UIHostingController(rootView: PullToRefreshView(vm: vm, onTap: onTap))
         
         childView.view.frame = CGRect(x: 0, y: 0, width: width, height: height)
         
