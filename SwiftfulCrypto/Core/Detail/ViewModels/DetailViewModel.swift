@@ -12,6 +12,9 @@ class DetailViewModel: ObservableObject {
     
     @Published var overviewStatistics: [StatisticModel] = []
     @Published var additionalStatistics: [StatisticModel] = []
+    @Published var coinDescription: String? = nil
+    @Published var websiteURL: String? = nil
+    @Published var redditURL: String? = nil
     
     @Published var coin: CoinModel
     
@@ -33,6 +36,15 @@ class DetailViewModel: ObservableObject {
                 guard let self = self else { return }
                 self.overviewStatistics = result.overview
                 self.additionalStatistics = result.additional
+            }
+            .store(in: &cancellables)
+        
+        coinDetailService.$coinDetail
+            .sink { [weak self] detail in
+                guard let self = self else { return }
+                self.coinDescription = detail?.readableDescription
+                self.websiteURL = detail?.links?.homepage?.first
+                self.redditURL = detail?.links?.subredditURL
             }
             .store(in: &cancellables)
     }

@@ -22,6 +22,7 @@ struct DetailLoadingView: View {
 struct DetailView: View {
     
     @ObservedObject private var vm: DetailViewModel
+    @State private var showFullDescription: Bool = false
     
     private var spacing: CGFloat = 30
     
@@ -62,11 +63,12 @@ extension DetailView {
                 VStack(spacing: 20) {
                     overviewTitle
                     Divider()
+                    descriptionSection
                     overviewGrid
-
                     additionalTitle
                     Divider()
                     additionalGrid
+                    websiteSection
                 }
                 .padding()
             }
@@ -97,6 +99,31 @@ extension DetailView {
             .bold()
             .foregroundColor(Color.theme.accent)
             .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    
+    private var descriptionSection: some View {
+        ZStack {
+            if let coinDescription = vm.coinDescription, !coinDescription.isEmpty {
+                VStack(alignment: .leading) {
+                    Text(coinDescription)
+                        .lineLimit(showFullDescription ? nil : 3)
+                        .font(.callout)
+                        .foregroundColor(Color.theme.secondary)
+                    Button {
+                        withAnimation(.easeInOut) {
+                            showFullDescription.toggle()
+                        }
+                    } label: {
+                        Text(showFullDescription ? "Less" : "Read more...")
+                            .font(.caption)
+                            .fontWeight(.bold)
+                            .padding(.vertical, 4)
+                    }
+                    .accentColor(.blue)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }
     }
     
     private var overviewGrid: some View {
@@ -165,6 +192,38 @@ extension DetailView {
                 }
             }
         }
+    }
+    
+    private var websiteSection: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            if let websiteString = vm.websiteURL,
+               let url = URL(string: websiteString) {
+                if #available(iOS 14.0, *) {
+                    Link("Website", destination: url)
+                } else {
+                    Button(action: {
+                        UIApplication.shared.open(url)
+                    }) {
+                        Text("Website")
+                    }
+                }
+            }
+            if let redditString = vm.redditURL,
+               let url = URL(string: redditString) {
+                if #available(iOS 14.0, *) {
+                    Link("Reddit", destination: url)
+                } else {
+                    Button(action: {
+                        UIApplication.shared.open(url)
+                    }) {
+                        Text("Reddit")
+                    }
+                }
+            }
+        }
+        .accentColor(.blue)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .font(.headline)
     }
     
 }
