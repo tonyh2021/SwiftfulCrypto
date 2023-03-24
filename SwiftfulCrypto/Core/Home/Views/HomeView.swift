@@ -78,13 +78,9 @@ extension HomeView {
     }
     
     private var allCoinsListView: some View {
-        List {
-            ForEach(vm.allCions) { coin in
-                CoinRowView(coin: coin, showHoldingsColumn: false)
-                    .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
-            }
+        GeometryReader { geometry in
+            RefreshScrollView(width: geometry.size.width, height: geometry.size.height, vm: vm)
         }
-        .listStyle(PlainListStyle())
     }
     
     private var portfolioCoinsListView: some View {
@@ -106,14 +102,14 @@ extension HomeView {
             }
             Text("Price").frame(width: UIScreen.main.bounds.width / 3.5, alignment: .trailing)
             
-            Button {
-                withAnimation(.linear(duration: 2.0)) {
-                    vm.reloadData()
-                }
-            } label: {
-                Image(systemName: "goforward")
-            }
-            .rotationEffect(Angle(degrees: vm.isLoading ? 360 : 0), anchor: .center)
+//            Button {
+//                withAnimation(.linear(duration: 2.0)) {
+//                    vm.reloadData()
+//                }
+//            } label: {
+//                Image(systemName: "goforward")
+//            }
+//            .rotationEffect(Angle(degrees: vm.isLoading ? 360 : 0), anchor: .center)
         }
         .font(.caption)
         .foregroundColor(Color.theme.secondary)

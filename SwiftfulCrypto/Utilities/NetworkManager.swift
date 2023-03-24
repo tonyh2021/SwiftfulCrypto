@@ -26,6 +26,8 @@ class NetworkManager {
         }
     }
     
+    static var debug: Bool = true
+    
     static func download(url: URL) -> AnyPublisher<Data, Error> {
         return URLSession.shared.dataTaskPublisher(for: url)
             .subscribe(on: DispatchQueue.global(qos: .default))
@@ -37,6 +39,17 @@ class NetworkManager {
     static func handleURLResponse(output: URLSession.DataTaskPublisher.Output, url: URL) throws -> Data {
         guard let response = output.response as? HTTPURLResponse, response.statusCode >= 200 && response.statusCode < 300 else {
             throw NetworkError.badServerResponse(url: url)
+        }
+        if debug {
+            print("URL: \(url)")
+            print("StatusCode: \(response.statusCode)")
+            print("Data Length: \(output.data.count)")
+//            do {
+//                let json = try JSONSerialization.jsonObject(with: output.data, options: [])
+//                print("Data: \(json)")
+//            } catch let error {
+//                print("Failed to print: \(error.localizedDescription)")
+//            }
         }
         return output.data
     }
