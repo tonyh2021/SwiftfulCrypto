@@ -30,6 +30,30 @@ struct DetailView: View {
     }
     
     var body: some View {
+        if #available(iOS 14.0, *) {
+            scrollView
+                .navigationTitle(vm.coin.name)
+                .navigationBarTitleDisplayMode(.large)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        navigationBarTrailingItem
+                }
+            }
+        } else {
+            scrollView
+                .navigationBarTitle(
+                    Text(vm.coin.name),
+                    displayMode: .large)
+                .navigationBarItems(
+                    trailing: navigationBarTrailingItem
+            )
+        }
+    }
+}
+
+extension DetailView {
+    
+    private var scrollView: some View {
         ScrollView {
             VStack(spacing: 20) {
                 Text("")
@@ -37,18 +61,24 @@ struct DetailView: View {
                 overviewTitle
                 Divider()
                 overviewGrid
-                
+
                 additionalTitle
                 Divider()
                 additionalGrid
             }
             .padding()
         }
-        .navigationBarTitle(vm.coin.name)
     }
-}
-
-extension DetailView {
+    
+    private var navigationBarTrailingItem: some View {
+        HStack {
+            Text(vm.coin.symbol.uppercased())
+                .font(.headline)
+            .foregroundColor(Color.theme.secondary)
+            CoinImageView(coin: vm.coin)
+                .frame(width: 25, height: 25)
+        }
+    }
     
     private var overviewTitle: some View {
         Text("Overview")

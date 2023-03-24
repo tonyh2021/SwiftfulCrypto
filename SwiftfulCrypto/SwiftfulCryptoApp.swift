@@ -57,6 +57,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             HomeView()
                 .navigationBarHidden(true)
         }
+            .navigationViewStyle(.stack)
 //        let rootView = ContentView()
         
         // Use a UIHostingController as window root view controller.
