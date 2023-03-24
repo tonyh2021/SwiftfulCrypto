@@ -89,29 +89,27 @@ extension HomeView {
     }
     
     private var allCoinsListView: some View {
-        VStack {
-            if #available(iOS 15.0, *) {
-                List {
-                    ForEach(vm.allCions) { coin in
-                        CoinRowView(coin: coin, showHoldingsColumn: false)
-                            .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
-                            .onTapGesture {
-                                segue(coin: coin)
-                            }
-                    }
+        if #available(iOS 15.0, *) {
+            return List {
+                ForEach(vm.allCions) { coin in
+                    CoinRowView(coin: coin, showHoldingsColumn: false)
+                        .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
+                        .onTapGesture {
+                            segue(coin: coin)
+                        }
                 }
-                .listStyle(PlainListStyle())
-                .refreshable {
-                    vm.reloadData()
-                }
-            } else {
-                GeometryReader { geometry in
-                    RefreshScrollView(
-                        width: geometry.size.width,
-                        height: geometry.size.height,
-                        vm: vm,
-                        onTap: segue)
-                }
+            }
+            .listStyle(PlainListStyle())
+            .refreshable {
+                vm.reloadData()
+            }
+        } else {
+            return GeometryReader { geometry in
+                RefreshScrollView(
+                    width: geometry.size.width,
+                    height: geometry.size.height,
+                    vm: vm,
+                    onTap: segue)
             }
         }
     }
