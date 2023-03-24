@@ -55,18 +55,21 @@ extension DetailView {
     
     private var scrollView: some View {
         ScrollView {
-            VStack(spacing: 20) {
-                Text("")
-                    .frame(height: 150)
-                overviewTitle
-                Divider()
-                overviewGrid
+            VStack {
+                ChartView(coin: vm.coin)
+                    .padding(.vertical)
+                
+                VStack(spacing: 20) {
+                    overviewTitle
+                    Divider()
+                    overviewGrid
 
-                additionalTitle
-                Divider()
-                additionalGrid
+                    additionalTitle
+                    Divider()
+                    additionalGrid
+                }
+                .padding()
             }
-            .padding()
         }
     }
     
