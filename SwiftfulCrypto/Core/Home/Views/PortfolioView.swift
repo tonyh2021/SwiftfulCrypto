@@ -22,7 +22,7 @@ struct PortfolioView: View {
             if #available(iOS 14.0, *) {
                 scrollView.toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
-                        xView
+                        xButton
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
                         saveView
@@ -30,7 +30,7 @@ struct PortfolioView: View {
                 }
             } else {
                 scrollView.navigationBarItems(
-                    leading:xView,
+                    leading:xButton,
                     trailing: saveView
                 )
             }
@@ -135,7 +135,7 @@ extension PortfolioView {
         }
     }
     
-    private var xView: some View {
+    private var xButton: some View {
         XMarkButton {
             presentationMode.wrappedValue.dismiss()
         }
