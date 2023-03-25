@@ -55,6 +55,10 @@ extension PortfolioView {
                 }
             }
         }
+        .background(
+            Color.theme.background
+                .expandViewOutOfSafeArea()
+        )
         .navigationBarTitle("Edit Portfolio")
     }
     

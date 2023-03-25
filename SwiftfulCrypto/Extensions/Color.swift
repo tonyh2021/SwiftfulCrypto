@@ -26,6 +26,14 @@ struct LaunchTheme {
     let launchBackground = Color("LaunchBackgroundColor")
 }
 
+struct ColorTheme2 {
+    let accent = Color.yellow
+    let background = Color.blue
+    let green = Color.red
+    let red = Color.green
+    let secondary = Color.gray
+}
+
 extension Color {
 
     @available(*, deprecated, message: "This is fragile and likely to break at some point. Hopefully it won't be required for long.")

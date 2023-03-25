@@ -19,24 +19,28 @@ struct SettingsView: View {
     
     var body: some View {
         NavigationView {
-            if #available(iOS 14.0, *) {
-                listView
-                .listStyle(GroupedListStyle())
-                .navigationTitle("Settings")
-                .navigationBarTitleDisplayMode(.large)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        xButton
+            ZStack {
+                Color.theme.background.expandViewOutOfSafeArea()
+                
+                if #available(iOS 14.0, *) {
+                    listView
+                    .navigationTitle("Settings")
+                    .navigationBarTitleDisplayMode(.large)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            xButton
+                        }
                     }
+                } else {
+                    listView
+                    .navigationBarTitle(
+                        Text("Settings"),
+                        displayMode: .large)
+                    .navigationBarItems(trailing: xButton)
                 }
-            } else {
-                listView
-                .navigationBarTitle(
-                    Text("Settings"),
-                    displayMode: .large)
-                .navigationBarItems(trailing: xButton)
             }
         }
+        .navigationViewStyle(.stack)
     }
 }
 
@@ -51,16 +55,21 @@ extension SettingsView {
     private var listView: some View {
         List {
             developerView
+                .listRowBackground(Color.theme.background.opacity(0.5))
             swiftfulThinkingSection
+                .listRowBackground(Color.theme.background.opacity(0.5))
             coinGeckoSection
+                .listRowBackground(Color.theme.background.opacity(0.5))
             applicationSection
+                .listRowBackground(Color.theme.background.opacity(0.5))
         }
+        .listStyle(PlainListStyle())
         .font(.headline)
         .accentColor(.blue)
     }
     
     private var developerView: some View {
-        Section(header: Text("Tonyh2021")) {
+        Section(header: Text("Tonyh2021".uppercased())) {
             VStack(alignment: .leading) {
                 Image("tonyh2021")
                     .resizable()
@@ -95,7 +104,7 @@ extension SettingsView {
     }
     
     private var swiftfulThinkingSection: some View {
-        Section(header: Text("Swiftful Thinking")) {
+        Section(header: Text("Swiftful Thinking".uppercased())) {
             VStack(alignment: .leading) {
                 Image("logo")
                     .resizable()
@@ -123,7 +132,7 @@ extension SettingsView {
     }
     
     private var coinGeckoSection: some View {
-        Section(header: Text("CoinGecko")) {
+        Section(header: Text("CoinGecko".uppercased())) {
             VStack(alignment: .leading) {
                 Image("coingecko")
                     .resizable()
@@ -149,7 +158,7 @@ extension SettingsView {
     }
     
     private var applicationSection: some View {
-        Section(header: Text("Application")) {
+        Section(header: Text("Application".uppercased())) {
             if #available(iOS 14.0, *) {
                 Link("Terms of Service", destination: defaultURL)
                 Link("Privacy Policy", destination: defaultURL)

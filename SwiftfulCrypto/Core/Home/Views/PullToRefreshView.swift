@@ -24,6 +24,7 @@ struct PullToRefreshView: View {
                     .onTapGesture {
                         onTap(coin)
                     }
+                    .listRowBackground(Color.clear)
             }
         }
         .listStyle(PlainListStyle())

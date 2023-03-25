@@ -18,10 +18,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if #available(iOS 14.0, *) {
             foregroundColor = UIColor(Color.theme.accent)
         } else {
-            foregroundColor = Color.theme.accent.uiColor;
+            foregroundColor = Color.theme.accent.uiColor
         }
+        
         UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: foregroundColor]
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: foregroundColor]
+        
+        UITableView.appearance().backgroundColor = UIColor.clear
         return true
     }
     
@@ -68,7 +71,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = UIHostingController(rootView: rootView.environmentObject(vm))
+            let host = UIHostingController(rootView: rootView.environmentObject(vm))
+            window.rootViewController = host
             self.window = window
             window.makeKeyAndVisible()
         }

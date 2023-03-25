@@ -31,23 +31,30 @@ struct DetailView: View {
     }
     
     var body: some View {
-        if #available(iOS 14.0, *) {
-            scrollView
-                .navigationTitle(vm.coin.name)
-                .navigationBarTitleDisplayMode(.large)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        navigationBarTrailingItem
+        ZStack {
+            Color.theme.background.expandViewOutOfSafeArea()
+            
+            if #available(iOS 14.0, *) {
+                scrollView
+                    .background(
+                        Color.theme.background
+                    )
+                    .navigationTitle(vm.coin.name)
+                    .navigationBarTitleDisplayMode(.large)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            navigationBarTrailingItem
+                    }
                 }
+            } else {
+                scrollView
+                    .navigationBarTitle(
+                        Text(vm.coin.name),
+                        displayMode: .large)
+                    .navigationBarItems(
+                        trailing: navigationBarTrailingItem
+                )
             }
-        } else {
-            scrollView
-                .navigationBarTitle(
-                    Text(vm.coin.name),
-                    displayMode: .large)
-                .navigationBarItems(
-                    trailing: navigationBarTrailingItem
-            )
         }
     }
 }

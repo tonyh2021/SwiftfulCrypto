@@ -102,27 +102,34 @@ extension HomeView {
     }
     
     private var allCoinsListView: some View {
-        if #available(iOS 15.0, *) {
-            return List {
-                ForEach(vm.allCions) { coin in
-                    CoinRowView(coin: coin, showHoldingsColumn: false)
-                        .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
-                        .onTapGesture {
-                            segue(coin: coin)
-                        }
+        ZStack {
+            if #available(iOS 15.0, *) {
+                List {
+                    ForEach(vm.allCions) { coin in
+                        CoinRowView(coin: coin, showHoldingsColumn: false)
+                            .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
+                            .onTapGesture {
+                                segue(coin: coin)
+                            }
+                            .listRowBackground(Color.clear)
+                    }
+                }
+                .listStyle(PlainListStyle())
+                .refreshable {
+                    vm.reloadData()
+                }
+            } else {
+                GeometryReader { geometry in
+                    RefreshScrollView(
+                        width: geometry.size.width,
+                        height: geometry.size.height,
+                        vm: vm,
+                        onTap: segue)
                 }
             }
-            .listStyle(PlainListStyle())
-            .refreshable {
-                vm.reloadData()
-            }
-        } else {
-            return GeometryReader { geometry in
-                RefreshScrollView(
-                    width: geometry.size.width,
-                    height: geometry.size.height,
-                    vm: vm,
-                    onTap: segue)
+            
+            if (vm.allCions.isEmpty) {
+                Color.theme.background.expandViewOutOfSafeArea()
             }
         }
     }
@@ -146,6 +153,7 @@ extension HomeView {
             ForEach(vm.portfolioCoins) { coin in
                 CoinRowView(coin: coin, showHoldingsColumn: true)
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
+                    .listRowBackground(Color.clear)
             }
         }
         .listStyle(PlainListStyle())
