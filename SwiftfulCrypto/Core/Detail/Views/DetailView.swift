@@ -33,33 +33,36 @@ struct DetailView: View {
     var body: some View {
         ZStack {
             Color.theme.background.expandViewOutOfSafeArea()
-            
-            if #available(iOS 14.0, *) {
-                scrollView
-                    .background(
-                        Color.theme.background
-                    )
-                    .navigationTitle(vm.coin.name)
-                    .navigationBarTitleDisplayMode(.large)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            navigationBarTrailingItem
-                    }
-                }
-            } else {
-                scrollView
-                    .navigationBarTitle(
-                        Text(vm.coin.name),
-                        displayMode: .large)
-                    .navigationBarItems(
-                        trailing: navigationBarTrailingItem
-                )
-            }
+            scrollViewBuilder
         }
     }
 }
 
 extension DetailView {
+    
+    @ViewBuilder private var scrollViewBuilder: some View {
+        if #available(iOS 14.0, *) {
+            scrollView
+                .background(
+                    Color.theme.background
+                )
+                .navigationTitle(vm.coin.name)
+                .navigationBarTitleDisplayMode(.large)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        navigationBarTrailingItem
+                }
+            }
+        } else {
+            scrollView
+                .navigationBarTitle(
+                    Text(vm.coin.name),
+                    displayMode: .large)
+                .navigationBarItems(
+                    trailing: navigationBarTrailingItem
+            )
+        }
+    }
     
     private var scrollView: some View {
         ScrollView {

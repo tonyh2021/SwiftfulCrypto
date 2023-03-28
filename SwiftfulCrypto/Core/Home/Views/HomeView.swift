@@ -101,36 +101,34 @@ extension HomeView {
         .padding(.horizontal)
     }
     
-    private var allCoinsListView: some View {
-        ZStack {
-            if #available(iOS 15.0, *) {
-                List {
-                    ForEach(vm.allCions) { coin in
-                        CoinRowView(coin: coin, showHoldingsColumn: false)
-                            .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
-                            .onTapGesture {
-                                segue(coin: coin)
-                            }
-                            .listRowBackground(Color.clear)
-                    }
-                }
-                .listStyle(PlainListStyle())
-                .refreshable {
-                    vm.reloadData()
-                }
-            } else {
-                GeometryReader { geometry in
-                    RefreshScrollView(
-                        width: geometry.size.width,
-                        height: geometry.size.height,
-                        vm: vm,
-                        onTap: segue)
+    @ViewBuilder private var allCoinsListView: some View {
+        if #available(iOS 15.0, *) {
+            List {
+                ForEach(vm.allCions) { coin in
+                    CoinRowView(coin: coin, showHoldingsColumn: false)
+                        .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
+                        .onTapGesture {
+                            segue(coin: coin)
+                        }
+                        .listRowBackground(Color.clear)
                 }
             }
-            
-            if (vm.allCions.isEmpty) {
-                Color.theme.background.expandViewOutOfSafeArea()
+            .listStyle(PlainListStyle())
+            .refreshable {
+                vm.reloadData()
             }
+        } else {
+            GeometryReader { geometry in
+                RefreshScrollView(
+                    width: geometry.size.width,
+                    height: geometry.size.height,
+                    vm: vm,
+                    onTap: segue)
+            }
+        }
+        
+        if (vm.allCions.isEmpty) {
+            Color.theme.background.expandViewOutOfSafeArea()
         }
     }
     

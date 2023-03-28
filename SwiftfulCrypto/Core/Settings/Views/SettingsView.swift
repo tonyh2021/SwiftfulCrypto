@@ -21,23 +21,7 @@ struct SettingsView: View {
         NavigationView {
             ZStack {
                 Color.theme.background.expandViewOutOfSafeArea()
-                
-                if #available(iOS 14.0, *) {
-                    listView
-                    .navigationTitle("Settings")
-                    .navigationBarTitleDisplayMode(.large)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            xButton
-                        }
-                    }
-                } else {
-                    listView
-                    .navigationBarTitle(
-                        Text("Settings"),
-                        displayMode: .large)
-                    .navigationBarItems(trailing: xButton)
-                }
+                listViewBuilder
             }
         }
         .navigationViewStyle(.stack)
@@ -45,6 +29,25 @@ struct SettingsView: View {
 }
 
 extension SettingsView {
+    
+    @ViewBuilder private var listViewBuilder: some View {
+        if #available(iOS 14.0, *) {
+            listView
+            .navigationTitle("Settings")
+            .navigationBarTitleDisplayMode(.large)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    xButton
+                }
+            }
+        } else {
+            listView
+            .navigationBarTitle(
+                Text("Settings"),
+                displayMode: .large)
+            .navigationBarItems(trailing: xButton)
+        }
+    }
     
     private var xButton: some View {
         XMarkButton {
@@ -85,21 +88,8 @@ extension SettingsView {
             }
             .padding(.top)
             
-            if #available(iOS 14.0, *) {
-                Link("Source Code on Github 🥳", destination: githubURL)
-                Link("Buy me a coffee ☕️", destination: coffeeURL)
-            } else {
-                Button(action: {
-                    UIApplication.shared.open(githubURL)
-                }) {
-                    Text("Source Code on Github 🥳")
-                }
-                Button(action: {
-                    UIApplication.shared.open(coffeeURL)
-                }) {
-                    Text("Buy me a coffee ☕️")
-                }
-            }
+            LinkAdaptor("Source Code on Github 🥳", destination: githubURL)
+            LinkAdaptor("Buy me a coffee ☕️", destination: coffeeURL)
         }
     }
     
@@ -119,15 +109,7 @@ extension SettingsView {
             }
             .padding(.top)
             
-            if #available(iOS 14.0, *) {
-                Link("Watch the course on Youtube 📺", destination: youtubeURL)
-            } else {
-                Button(action: {
-                    UIApplication.shared.open(githubURL)
-                }) {
-                    Text("Watch the course on Youtube 🥳")
-                }
-            }
+            LinkAdaptor("Watch the course on Youtube 📺", destination: youtubeURL)
         }
     }
     
@@ -145,47 +127,18 @@ extension SettingsView {
             }
             .padding(.top)
             
-            if #available(iOS 14.0, *) {
-                Link("Visit CoinGecko 🦎", destination: coinGeckoURL)
-            } else {
-                Button(action: {
-                    UIApplication.shared.open(coinGeckoURL)
-                }) {
-                    Text("Visit CoinGecko 🦎")
-                }
-            }
+            LinkAdaptor("Visit CoinGecko 🦎", destination: coinGeckoURL)
         }
     }
     
     private var applicationSection: some View {
         Section(header: Text("Application".uppercased())) {
-            if #available(iOS 14.0, *) {
-                Link("Terms of Service", destination: defaultURL)
-                Link("Privacy Policy", destination: defaultURL)
-                Link("Company Website", destination: defaultURL)
-                Link("Learn More", destination: defaultURL)
-            } else {
-                Button(action: {
-                    UIApplication.shared.open(defaultURL)
-                }) {
-                    Text("Terms of Service")
-                }
-                Button(action: {
-                    UIApplication.shared.open(defaultURL)
-                }) {
-                    Text("Privacy Policy")
-                }
-                Button(action: {
-                    UIApplication.shared.open(defaultURL)
-                }) {
-                    Text("Company Website")
-                }
-                Button(action: {
-                    UIApplication.shared.open(defaultURL)
-                }) {
-                    Text("Learn More")
-                }
-            }
+            
+            LinkAdaptor("Terms of Service", destination: defaultURL)
+            LinkAdaptor("Privacy Policy", destination: defaultURL)
+            LinkAdaptor("Company Website", destination: defaultURL)
+            LinkAdaptor("Learn More", destination: defaultURL)
+            
         }
     }
 }
