@@ -108,34 +108,32 @@ extension DetailView {
             .frame(maxWidth: .infinity, alignment: .leading)
     }
     
-    private var descriptionSection: some View {
-        ZStack {
-            if let coinDescription = vm.coinDescription, !coinDescription.isEmpty {
-                VStack(alignment: .leading) {
-                    Text(coinDescription)
-                        .lineLimit(showFullDescription ? nil : 3)
-                        .font(.callout)
-                        .foregroundColor(Color.theme.secondary)
-                    Button {
-                        withAnimation(.easeInOut) {
-                            showFullDescription.toggle()
-                        }
-                    } label: {
-                        Text(showFullDescription ? "Less" : "Read more...")
-                            .font(.caption)
-                            .fontWeight(.bold)
-                            .padding(.vertical, 4)
+    @ViewBuilder private var descriptionSection: some View {
+        if let coinDescription = vm.coinDescription, !coinDescription.isEmpty {
+            VStack(alignment: .leading) {
+                Text(coinDescription)
+                    .lineLimit(showFullDescription ? nil : 3)
+                    .font(.callout)
+                    .foregroundColor(Color.theme.secondary)
+                Button {
+                    withAnimation(.easeInOut) {
+                        showFullDescription.toggle()
                     }
-                    .accentColor(.blue)
+                } label: {
+                    Text(showFullDescription ? "Less" : "Read more...")
+                        .font(.caption)
+                        .fontWeight(.bold)
+                        .padding(.vertical, 4)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .accentColor(.blue)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
     
-    private var overviewGrid: some View {
+    @ViewBuilder private var overviewGrid: some View {
         if #available(iOS 14.0, *) {
-            return LazyVGrid(
+            LazyVGrid(
                 columns: [
                     GridItem(.flexible()),
                     GridItem(.flexible())
@@ -152,7 +150,7 @@ extension DetailView {
             // Fallback on earlier versions
             let col = 2
             let row = vm.overviewStatistics.count / col
-            return VStack(spacing: spacing) {
+            VStack(spacing: spacing) {
                 ForEach(0..<row, id: \.self) { rowIndex in
                     HStack() {
                         ForEach(0..<col, id: \.self) { colIndex in
@@ -167,9 +165,9 @@ extension DetailView {
         }
     }
     
-    private var additionalGrid: some View {
+    @ViewBuilder private var additionalGrid: some View {
         if #available(iOS 14.0, *) {
-            return LazyVGrid(
+            LazyVGrid(
                 columns: [
                     GridItem(.flexible()),
                     GridItem(.flexible())
@@ -184,7 +182,7 @@ extension DetailView {
             }
         } else {
             // Fallback on earlier versions
-            return VStack(spacing: spacing) {
+            VStack(spacing: spacing) {
                 let col = 2
                 let row = vm.additionalStatistics.count / col
                 ForEach(0..<row, id: \.self) { rowIndex in
