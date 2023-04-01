@@ -10,11 +10,11 @@ import Combine
 
 class HomeViewModel: ObservableObject {
     
-    @Published var statistics: [StatisticModel] = []
+    @Published private(set) var statistics: [StatisticModel] = []
     
-    @Published var allCions: [CoinModel] = []
-    @Published var portfolioCoins: [CoinModel] = []
-    @Published var isLoading: Bool = false
+    @Published private(set) var allCions: [CoinModel] = []
+    @Published private(set) var portfolioCoins: [CoinModel] = []
+    @Published private(set) var isLoading: Bool = false
     @Published var searchText: String = ""
     @Published var sortOption: SortOption = .holdings
     

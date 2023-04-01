@@ -10,7 +10,7 @@ import Combine
 
 class CoinDataService {
     
-    @Published var allCoin: [CoinModel] = []
+    @Published private(set) var allCoin: [CoinModel] = []
     var coinSubscription: AnyCancellable?
     
     init() {

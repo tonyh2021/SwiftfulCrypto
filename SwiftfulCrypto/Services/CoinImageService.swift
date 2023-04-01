@@ -11,7 +11,7 @@ import Combine
 
 class CoinImageService {
     
-    @Published var image: UIImage? = nil
+    @Published private(set) var image: UIImage? = nil
     
     private var coin: CoinModel
     private var imageSubscription: AnyCancellable? = nil

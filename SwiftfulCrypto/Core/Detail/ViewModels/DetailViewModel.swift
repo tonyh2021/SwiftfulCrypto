@@ -10,13 +10,13 @@ import Combine
 
 class DetailViewModel: ObservableObject {
     
-    @Published var overviewStatistics: [StatisticModel] = []
-    @Published var additionalStatistics: [StatisticModel] = []
-    @Published var coinDescription: String? = nil
-    @Published var websiteURL: String? = nil
-    @Published var redditURL: String? = nil
+    @Published private(set) var overviewStatistics: [StatisticModel] = []
+    @Published private(set) var additionalStatistics: [StatisticModel] = []
+    @Published private(set) var coinDescription: String? = nil
+    @Published private(set) var websiteURL: String? = nil
+    @Published private(set) var redditURL: String? = nil
     
-    @Published var coin: CoinModel
+    @Published private(set) var coin: CoinModel
     
     private let coinDetailService: CoinDetailDataService
     private var cancellables = Set<AnyCancellable>()
