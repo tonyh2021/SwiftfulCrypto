@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class MarketDataService {
+final class MarketDataService {
     
     @Published private(set) var marketData: MarketDataModel? = nil
     var marketDataSubscription: AnyCancellable?

@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class HomeViewModel: ObservableObject {
+final class HomeViewModel: ObservableObject {
     
     @Published private(set) var statistics: [StatisticModel] = []
     

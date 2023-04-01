@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class CoinDetailDataService {
+final class CoinDetailDataService {
     
     @Published private(set) var coinDetail: CoinDetailModel? = nil
     var coinDetailSubscription: AnyCancellable?

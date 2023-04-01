@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class CoinDataService {
+final class CoinDataService {
     
     @Published private(set) var allCoin: [CoinModel] = []
     var coinSubscription: AnyCancellable?
